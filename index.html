@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ytsApp">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+	
+	<link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css">
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="css/style.css"> 
+</head>
+<body ng-controller="YTSController"  ng-cloak>
+	<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button> <a class="navbar-brand" href="#"><img src="https://yts.ag/assets/images/website/logo-YTS.svg" alt="YTS YIFY"></a>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
+				<!--<li class="nav-item"> <a class="nav-link" href="#">Docs</a> </li>
+				<li class="nav-item"> <a class="nav-link" href="#">Examples</a> </li>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown01"> <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a> </div>
+				</li>-->
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="jumbotron">
+			<form class="form-inline">
+			  <!--<label class="sr-only" for="inlineFormInput">Name</label>
+			  <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Jane Doe">
+
+			  <label class="sr-only" for="inlineFormInputGroup">Username</label>
+			  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+				<div class="input-group-addon">@</div>
+				<input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Username">
+			  </div>-->
+			  <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+				 <label class="mr-sm-2" for="inlineFormCustomSelect">Rating:</label>
+				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.minimumRating" ng-options="rating for rating in searchParams.minimumRatings">
+				  	<option value="" selected="selected">All</option>
+				  </select>
+			  </div>
+			  <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+				  <label class="mr-sm-2" for="inlineFormCustomSelect">Quality:</label>
+				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedQuality" ng-options="quality for quality in searchParams.quality">
+				  <option value="" selected="selected">All</option>
+				  </select>
+			  </div>
+			  <button type="submit" class="btn btn-success" ng-click="performSearch()" autofocus>Search</button>
+			</form>
+		</div>
+		<div class="jumbotron" ng-show="showResults">
+			<div class="container text-center" ng-show="data === undefined"><span class="fa fa-refresh fa-spin" style="font-size:10rem"></span></div>
+			<div class="container" ng-show="data.moviesCount > 0">
+				<div class="row">
+					<div class="col-12 text-right">
+						<span class="fa fa-table" style="padding-right:2px;font-size:1.5rem" ng-show="!showMoviesInTable" ng-click="showMoviesInTable=!showMoviesInTable"></span>
+						<span class="fa fa-address-card" style="padding-right:16px;font-size:1.5rem" ng-show="showMoviesInTable" ng-click="showMoviesInTable=!showMoviesInTable"></span>
+					</div>
+				</div>
+				<div class="row table-responsive" ng-show="showMoviesInTable">
+				<table class="table table-sm table-hover">
+					<thead class="thead-inverse">
+						<tr>
+							<th class="text-white">#</th>
+							<th class="text-white">Image</th>
+							<th>
+								<a href="#" ng-click="toggleSort('title')" class="text-white">Title
+									<span class="fa fa-caret-up" ng-show="sortType == 'title' && !sortReverse"></span>
+        							<span class="fa fa-caret-down" ng-show="sortType == 'title' && sortReverse"></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="toggleSort('year')" class="text-white">Year
+									<span class="fa fa-caret-up" ng-show="sortType == 'year' && !sortReverse"></span>
+        							<span class="fa fa-caret-down" ng-show="sortType == 'year' && sortReverse"></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="toggleSort('rating')" class="text-white">Rating
+									<span class="fa fa-caret-up" ng-show="sortType == 'rating' && !sortReverse"></span>
+        							<span class="fa fa-caret-down" ng-show="sortType == 'rating' && sortReverse"></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="toggleSort('genres')" class="text-white">Genre
+									<span class="fa fa-caret-up" ng-show="sortType == 'genres' && !sortReverse"></span>
+        							<span class="fa fa-caret-down" ng-show="sortType == 'genres' && sortReverse"></span>
+								</a>
+							</th>
+							<th class="text-white">Download</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-show="data !== undefined" ng-repeat="movie in data.movies | orderBy:sortType:sortReverse">
+							<td scope="row">{{$index + 1}}</td>
+							<td>
+								<a href="{{movie.url}}" target="_blank">
+									<figure class="figure">
+										<img src="{{movie.small_cover_image}}" class="figure-img img-fluid rounded"/>
+										<!--<figcaption class="figure-caption">
+											<p ng-repeat="torrent in movie.torrents"><a href="{{torrent.url}}">{{torrent.quality}}</a></p>
+										</figcaption>-->
+									</figure>
+								</a>
+							</td>
+							<td>{{movie.title}}</td>
+							<td>{{movie.year}}</td>
+							<td>{{movie.rating}}</td>
+							<td>{{movie.genres.sort().join(', ')}}</td>
+							<td>
+								<p ng-repeat="torrent in movie.torrents">
+									<a class="btn btn-sm btn-block active" href="{{torrent.url}}" role="button" ng-class="{'btn-success':torrent.quality === '720p', 'btn-primary':torrent.quality === '1080p', 'btn-warning':torrent.quality === '3D'}" style="font-size:0.6rem"><span class="fa fa-download">&nbsp;</span>{{torrent.quality}}</a>
+								</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>		
+			</div>
+				<div class="row" ng-show="!showMoviesInTable">
+				<div class="col-12">
+					<div class="card-columns" ng-show="data !== undefined">
+						<div class="card" ng-repeat="movie in data.movies">
+							<a href="{{movie.url}}" target="_blank">
+								<img class="card-img-top" src="{{movie.medium_cover_image}}" style="width:100%"/>
+							</a>
+							<div class="card-block">
+								<h5 class="card-title">{{movie.title}}</h5>
+								<p class="card-text"><br>Year:&nbsp;{{movie.year}}<br>Rating:&nbsp;{{movie.rating}}<br>Language:&nbsp;{{movie.language}}<!--<br>Genres:&nbsp;{{movie.genres.sort().join(', ')}}--></p>
+								<!--<p class="card-text">Genres:&nbsp;{{movie.genres.sort().join(', ')}}</p>-->
+							</div>
+							<div class="card-footer">
+								<small class="text-muted">
+									<span ng-repeat="torrent in movie.torrents">
+										<a class="btn btn-sm" href="{{torrent.url}}" role="button" ng-class="{'btn-success':torrent.quality === '720p', 'btn-primary':torrent.quality === '1080p', 'btn-warning':torrent.quality === '3D'}" style="font-size:0.5rem"><span class="fa fa-download">&nbsp;</span>{{torrent.quality}}</a>
+									</span>
+								</small>
+							</div>
+						</div>	
+					</div>
+					<div class="container text-center" ng-show="data === undefined"> 
+						<span class="fa fa-refresh fa-spin" style="font-size:10rem"/>
+					</div>
+				</div>
+			</div>
+			</div>
+			<div class="container" ng-show="data.moviesCount === 0">
+				<div class="row">
+					<div class="col-12 text-center">
+						<h5>{{data.message}}</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<footer>
+			<p class="text-white">&copy; Company 2017</p>
+		</footer>
+	</div>
+	<!-- jQuery first, then Tether, then Bootstrap JS. -->
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/tether/dist/js/tether.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/ytscontroller.js"></script>
+</body>
+</html>
