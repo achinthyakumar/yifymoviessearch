@@ -54,7 +54,7 @@
 				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedGenre" ng-options="genre.value for genre in searchParams.genre track by genre.key">
 				  </select>
 			  </div>
-			  <button type="submit" class="btn btn-primary" ng-click="performSearch()" autofocus>Search</button>
+			  <button type="button" class="btn btn-primary" ng-click="performSearch()" autofocus>Search</button>
 			</form>
 		</div>
 		<div class="jumbotron" ng-show="showResults">
@@ -66,7 +66,7 @@
 						<span class="fa fa-address-card" style="padding-right:16px;font-size:1.5rem" ng-show="showMoviesInTable" ng-click="showMoviesInTable=!showMoviesInTable"></span>
 					</div>
 				</div>
-				<div class="row table-responsive" ng-show="showMoviesInTable">
+                <div class="row table-responsive" ng-show="showMoviesInTable">
 				<table class="table table-sm table-hover">
 					<thead class="thead-inverse">
 						<tr>
@@ -84,7 +84,7 @@
         							<span class="fa fa-caret-down" ng-show="sortType == 'year' && sortReverse"></span>
 								</a>
 							</th>
-							<th>
+							<th nowrap>
 								<a href="#" ng-click="toggleSort('rating')" class="text-white">Rating
 									<span class="fa fa-caret-up" ng-show="sortType == 'rating' && !sortReverse"></span>
         							<span class="fa fa-caret-down" ng-show="sortType == 'rating' && sortReverse"></span>
@@ -160,9 +160,9 @@
 				</div>
 			</div>
 			</div>
-			<div class="container" ng-show="data.moviesCount === 0">
+			<div class="container" ng-show="data.message">
 				<div class="row">
-					<div class="col-12 text-center">
+					<div class="col-12 text-center"  ng-class="{'text-danger': data.error}">
 						<h5>{{data.message}}</h5>
 					</div>
 				</div>

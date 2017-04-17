@@ -38,7 +38,8 @@ angular.module('ytsApp', []).controller('YTSController', function YTSController(
 					quality: $scope.searchParams.selectedQuality,
                     genre: $scope.searchParams.selectedGenre.key
 					//query_term:"sdadasd"
-				}
+				},
+                timeout: 3000
 			}).then(function successCallback(response) {
 				if (response.data.data.movie_count > 0) {
 					$scope.data = {
@@ -55,9 +56,14 @@ angular.module('ytsApp', []).controller('YTSController', function YTSController(
 				}
 			}, function errorCallback(response) {
 				console.log("Error call back" + response.status);
+                $scope.data = {
+				    error: true,
+					message: "Network issue - API is not access."
+				};
 			});
 		}
-	}();
+	};
+    $scope.performSearch();
     
     $scope.moviedetailModal = function (id) {
         $scope.searchMovieById(id);
