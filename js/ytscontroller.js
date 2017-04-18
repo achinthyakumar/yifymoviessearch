@@ -1,42 +1,46 @@
 // Define the `phonecatApp` module
 angular.module('ytsApp', []).controller('YTSController', function YTSController($scope, $http) {
-	$scope.sortType = 'rating';
-	$scope.sortReverse = true;
-	$scope.showMoviesInTable = true;
-	$scope.showResults = false;
 	$scope.searchParams = {
-		limit: 10,
+		pageLimit: [10, 20, 30, 40, 50],
+        selectedPageLimit: 10,
 		minimumRatings: [9, 8, 7, 6, 5, 4, 3, 2, 1],
-		minimumRating: 0,
+		selectedMinimumRating: 0,
 		page: 1,
 		rottenTomatoesRating: true,
 		quality: ["720p", "1080p", "3D"],
 		selectedQuality: "",
         genre: [{key:"all", value:"All"}, {key:"action", value:"Action"},{key:"adventure", "value" :"Adventure"} ,{key:"animation", "value"  :"Animation"} ,{key:"biography", "value" :"Biography"} ,{key: "comedy", "value" :"Comedy"} ,{key:"crime", "value" :"Crime"} ,{key:"documentary", "value" :"Documentary"} ,{key:"drama", "value" :"Drama"} ,{key:"family", value: "Family"},{key:"fantasy", "value" :"Fantasy"} ,{key:"film-noir", "value" :"Film-noir"} ,{key:"game-show", "value" :"Game-show"} ,{key:"history", "value" :"History"} ,{key:"horror", "value" :"Horror"} ,{key: "music", value: "Music"} ,{key:"musical", "value" :"Musical"} ,{key:"mystery", "value" :"Mystery"} ,{key:"news", "value" :"News"},{key: "reality-tv", "value" :"Reality-tv"} ,{key:"romance", "value" :"Romance"} ,{key:"sci-fi", "value" :"Sci-fi"} ,{key:"sport", "value" :"Sport"} ,{key:"talk-show", "value" :"Talk-show"} ,{key: "thriller", "value" :"Thriller"} ,{key:"war", "value" :"War"} ,{key:"western", "value" :"Western"}],
-        selectedGenre: {key:"all", value:"All"}
+        selectedGenre: {key:"all", value:"All"},
+        sortBy: [{key:"title", value:"Title"},{key:"year", value:"Year"},{key:"rating", value:"Rating"}, {key:"peers", value: "Peers"},{key: "seeds", value:"Seeds"}, {key: "download_count", value:"Download Count"},{key:"like_count", value:"Like Count"}],
+        selectedSortBy: {key:"year", value:"Year"},
+        showMoviesInTable: true,
+        orderBy: "desc"
 	};
-	$scope.toggleSort = function (sortType) {
-		$scope.sortType = sortType;
-		$scope.sortReverse = !$scope.sortReverse;
+	$scope.showResults = false;
+	$scope.toggleSort = function (resultSortBy) {
+		$scope.resultSortBy = resultSortBy;
+		$scope.resultOrderBy = !$scope.resultOrderBy;
 	};
 
 	$scope.performSearch = function () {
-		$scope.showResults = true;
-		sessionStorage.clear();
+        $scope.data = undefined;
+		/*sessionStorage.clear();
 		if (sessionStorage.data) {
 			$scope.data = JSON.parse(sessionStorage.data);
-		} else {
+		} else {*/
 			// Simple GET request example:
 			$http({
 				method: 'GET',
 				url: 'https://yts.ag/api/v2/list_movies.json',
 				params: {
-					limit: $scope.searchParams.limit,
+					limit: $scope.searchParams.selectedPageLimit,
 					page: $scope.searchParams.page,
-					minimum_rating: $scope.searchParams.minimumRating,
+					minimum_rating: $scope.searchParams.selectedMinimumRating,
 					with_rt_ratings: $scope.searchParams.rottenTomatoesRating,
 					quality: $scope.searchParams.selectedQuality,
-                    genre: $scope.searchParams.selectedGenre.key
+                    genre: $scope.searchParams.selectedGenre.key,
+                    sort_by: $scope.searchParams.selectedSortBy.key,
+                    order_by: $scope.searchParams.orderBy
 					//query_term:"sdadasd"
 				},
                 timeout: 3000
@@ -46,6 +50,8 @@ angular.module('ytsApp', []).controller('YTSController', function YTSController(
 						moviesCount: response.data.data.movie_count,
 						movies: response.data.data.movies
 					};
+                    $scope.resultSortBy = $scope.searchParams.selectedSortBy.key;
+                    $scope.resultOrderBy = $scope.searchParams.orderBy === "desc";
 					sessionStorage.data = JSON.stringify($scope.data);
 				} else {
 					$scope.data = {
@@ -61,7 +67,7 @@ angular.module('ytsApp', []).controller('YTSController', function YTSController(
 					message: "Network issue - API is not access."
 				};
 			});
-		}
+		//}
 	};
     $scope.performSearch();
     
@@ -69,6 +75,20 @@ angular.module('ytsApp', []).controller('YTSController', function YTSController(
         $scope.searchMovieById(id);
         $('#moviedetail-modal').modal();          
     };
+    
+    $scope.previousMovie = function (id) {
+        var previousMovieRow = $('#' + id).prev('tr');
+        if (previousMovieRow.hasClass('movieRow')) {
+            $scope.searchMovieById(previousMovieRow.attr('id'));
+        };
+    }
+    
+    $scope.nextMovie = function (id) {
+        var nextMovieRow = $('#' + id).next('tr');
+        if (nextMovieRow.hasClass('movieRow')) {
+            $scope.searchMovieById(nextMovieRow.attr('id'));
+        };
+    }
     
     $scope.searchMovieById = function (id) {
         $scope.selectedMovie = undefined;

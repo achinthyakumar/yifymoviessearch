@@ -39,74 +39,74 @@
 			  </div>-->
 			  <div class="form-check mb-2 mr-sm-2 mb-sm-0">
 				 <label class="mr-sm-2" for="inlineFormCustomSelect">Rating:</label>
-				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.minimumRating" ng-options="rating for rating in searchParams.minimumRatings">
+				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedMinimumRating" ng-options="rating for rating in searchParams.minimumRatings" ng-change="performSearch()">
 				  	<option value="" selected="selected">All</option>
 				  </select>
 			  </div>
 			  <div class="form-check mb-2 mr-sm-2 mb-sm-0">
 				  <label class="mr-sm-2" for="inlineFormCustomSelect">Quality:</label>
-				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedQuality" ng-options="quality for quality in searchParams.quality">
+				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedQuality" ng-options="quality for quality in searchParams.quality" ng-change="performSearch()">
 				  <option value="" selected="selected">All</option>
 				  </select>
 			  </div>
               <div class="form-check mb-2 mr-sm-2 mb-sm-0">
 				  <label class="mr-sm-2" for="inlineFormCustomSelect">Genre:</label>
-				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedGenre" ng-options="genre.value for genre in searchParams.genre track by genre.key">
+				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedGenre" ng-options="genre.value for genre in searchParams.genre track by genre.key" ng-change="performSearch()">
 				  </select>
 			  </div>
-			  <button type="button" class="btn btn-primary" ng-click="performSearch()" autofocus>Search</button>
+			  <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+				  <label class="mr-sm-2" for="inlineFormCustomSelect">Sort By:</label>
+				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedSortBy" ng-options="sortBy.value for sortBy in searchParams.sortBy track by sortBy.key" ng-change="performSearch()">
+				  </select>
+			  </div>
+			  <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+				 <label class="mr-sm-2" for="inlineFormCustomSelect">Page Limit:</label>
+				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedPageLimit" ng-options="pageLimit for pageLimit in searchParams.pageLimit" ng-change="performSearch()">
+				  </select>
+			  </div>
+			  <!--<button type="button" class="btn btn-primary" ng-click="performSearch()" autofocus>Search</button>-->
 			</form>
 		</div>
-		<div class="jumbotron" ng-show="showResults">
+		<div class="jumbotron">
 			<div class="container text-center" ng-show="data === undefined"><span class="fa fa-refresh fa-spin" style="font-size:10rem"></span></div>
 			<div class="container" ng-show="data.moviesCount > 0">
 				<div class="row">
 					<div class="col-12 text-right">
-						<span class="fa fa-table" style="padding-right:2px;font-size:1.5rem" ng-show="!showMoviesInTable" ng-click="showMoviesInTable=!showMoviesInTable"></span>
-						<span class="fa fa-address-card" style="padding-right:16px;font-size:1.5rem" ng-show="showMoviesInTable" ng-click="showMoviesInTable=!showMoviesInTable"></span>
+						<span class="fa fa-table" style="padding-right:2px;font-size:1.5rem" ng-show="!searchParams.showMoviesInTable" ng-click="searchParams.showMoviesInTable=!searchParams.showMoviesInTable"></span>
+						<span class="fa fa-address-card" style="padding-right:16px;font-size:1.5rem" ng-show="searchParams.showMoviesInTable" ng-click="searchParams.showMoviesInTable=!searchParams.showMoviesInTable"></span>
 					</div>
 				</div>
-                <div class="row table-responsive" ng-show="showMoviesInTable">
+                <div class="row table-responsive" ng-show="searchParams.showMoviesInTable">
 				<table class="table table-sm table-hover">
 					<thead class="thead-inverse">
 						<tr>
 							<th class="text-white">#</th>
 							<th class="text-white">Image</th>
-							<th>
+							<th nowrap>
 								<a href="#" ng-click="toggleSort('title')" class="text-white">Title
-									<span class="fa fa-caret-up" ng-show="sortType == 'title' && !sortReverse"></span>
-        							<span class="fa fa-caret-down" ng-show="sortType == 'title' && sortReverse"></span>
+									<span class="fa fa-caret-up" ng-show="resultSortBy === 'title' && !resultOrderBy"></span>
+        							<span class="fa fa-caret-down" ng-show="resultSortBy === 'title' && resultOrderBy"></span>
 								</a>
 							</th>
-							<th>
+							<th nowrap>
 								<a href="#" ng-click="toggleSort('year')" class="text-white">Year
-									<span class="fa fa-caret-up" ng-show="sortType == 'year' && !sortReverse"></span>
-        							<span class="fa fa-caret-down" ng-show="sortType == 'year' && sortReverse"></span>
+									<span class="fa fa-caret-up" ng-show="resultSortBy === 'year' && !resultOrderBy"></span>
+        							<span class="fa fa-caret-down" ng-show="resultSortBy === 'year' && resultOrderBy"></span>
 								</a>
 							</th>
 							<th nowrap>
 								<a href="#" ng-click="toggleSort('rating')" class="text-white">Rating
-									<span class="fa fa-caret-up" ng-show="sortType == 'rating' && !sortReverse"></span>
-        							<span class="fa fa-caret-down" ng-show="sortType == 'rating' && sortReverse"></span>
+									<span class="fa fa-caret-up" ng-show="resultSortBy === 'rating' && !resultOrderBy"></span>
+        							<span class="fa fa-caret-down" ng-show="resultSortBy === 'rating' && resultOrderBy"></span>
 								</a>
 							</th>
-							<th>
-								<a href="#" ng-click="toggleSort('genres')" class="text-white">Genre
-									<span class="fa fa-caret-up" ng-show="sortType == 'genres' && !sortReverse"></span>
-        							<span class="fa fa-caret-down" ng-show="sortType == 'genres' && sortReverse"></span>
-								</a>
-							</th>
-							<th nowrap>
-								<a href="#" ng-click="toggleSort('runtime')" class="text-white">Runtime
-									<span class="fa fa-caret-up" ng-show="sortType == 'runtime' && !sortReverse"></span>
-        							<span class="fa fa-caret-down" ng-show="sortType == 'runtime' && sortReverse"></span>
-								</a>
-							</th>
+							<th class="text-white">Genre</th>
+							<th class="text-white">Runtime</th>
 							<th class="text-white">Download</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-show="data !== undefined" ng-repeat="movie in data.movies | orderBy:sortType:sortReverse">
+						<tr id="{{movie.id}}" class ="movieRow" ng-show="data !== undefined" ng-repeat="movie in data.movies | orderBy:resultSortBy:resultOrderBy">
 							<td scope="row">{{$index + 1}}</td>
 							<td>
 								<a href="#">
@@ -133,12 +133,12 @@
 					</tbody>
 				</table>		
 			</div>
-            <div class="row" ng-show="!showMoviesInTable">
+            <div class="row" ng-show="!searchParams.showMoviesInTable">
 				<div class="col-12">
 					<div class="card-columns" ng-show="data !== undefined">
-						<div class="card" ng-repeat="movie in data.movies">
-							<a href="{{movie.url}}" target="_blank">
-								<img class="card-img-top" src="{{movie.medium_cover_image}}" style="width:100%"/>
+						<div class="card card-block" ng-repeat="movie in data.movies | orderBy:resultSortBy:resultOrderBy">
+							<a href="#">
+								<img class="card-img-top" src="{{movie.medium_cover_image}}" style="width:100%" ng-click="moviedetailModal(movie.id)"/>
 							</a>
 							<div class="card-block">
 								<h5 class="card-title">{{movie.title}}</h5>
@@ -191,11 +191,11 @@
             </button>
           </div>
           <div class="modal-body">
-              <div class="contianer">
+              <div class="container hidden-xs-down">
                   <div class="row" ng-show="selectedMovie">
                       <div class="col-3">
                           <a href="http://www.imdb.com/title/{{selectedMovie.imdb_code}}" target="_blank">
-        				    <img class="rounded float-left" src="{{selectedMovie.medium_cover_image}}"/>
+        				    <img class="rounded float-left hidden-sm-down" src="{{selectedMovie.medium_cover_image}}"/>
                           </a>     
                       </div>
                       <div class="col-5"><h3>Summary</h3>{{selectedMovie.description_full}}</div>
@@ -218,11 +218,42 @@
                        </div>
                   </div>
               </div>
+              <div class="container hidden-sm-up">
+                  <div class="row" ng-show="selectedMovie">
+                      <div class="col-12">
+                          <a href="http://www.imdb.com/title/{{selectedMovie.imdb_code}}" target="_blank">
+        				    <img class="rounded float-left" src="{{selectedMovie.medium_cover_image}}"/>
+                          </a>     
+                      </div>
+                  </div>
+                  <div class="row" ng-show="selectedMovie">
+                      <div class="col-12"><h3>Summary</h3>{{selectedMovie.description_full}}</div>
+                  </div>
+                  <div class="row" ng-show="selectedMovie">
+                      <div class="col-12">
+                           <h3 ng-show="selectedMovie.cast">Cast</h3>
+                          <ul class="list-group">
+                              <li class="list-group-item" ng-repeat="cast in selectedMovie.cast">
+                                <a href="http://www.imdb.com/name/nm{{cast.imdb_code}}" target="_blank">
+                                    <img src="{{cast.url_small_image}}" class="img-fluid rounded" ng-hide="{{cast.url_small_image === undefined}}"/>
+                                    <img src="#" width="60" height="60" ng-show="{{cast.url_small_image === undefined}}"/>
+                                </a>
+                                <span class="pl-2">{{cast.name}} as {{cast.character_name}}</span>
+                              </li>
+                          </ul>  
+                      </div>
+                  </div>
+                  <div class="row" ng-show="selectedMovie === undefined">
+                       <div class="col-12 text-center">
+                            <span class="fa fa-refresh fa-spin" style="font-size:10rem"/>                      
+                       </div>
+                  </div>
+              </div>
           </div>
           <div class="modal-footer" ng-show="selectedMovie">
             <button type="button" class="btn btn-primary"><span class="fa fa-step-backward"></span></button>
-            <button type="button" class="btn btn-primary"><span class="fa fa-chevron-left"></span></button>
-            <button type="button" class="btn btn-primary"><span class="fa fa-chevron-right"></span></button>
+            <button type="button" class="btn btn-primary" ng-click="previousMovie(selectedMovie.id)"><span class="fa fa-chevron-left"></span></button>
+            <button type="button" class="btn btn-primary" ng-click="nextMovie(selectedMovie.id)"><span class="fa fa-chevron-right"></span></button>
             <button type="button" class="btn btn-primary"><span class="fa fa-step-forward"></span></button>
           </div>
     </div>
