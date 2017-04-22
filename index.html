@@ -18,57 +18,53 @@
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
-				<!--<li class="nav-item"> <a class="nav-link" href="#">Docs</a> </li>
-				<li class="nav-item"> <a class="nav-link" href="#">Examples</a> </li>
-				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-					<div class="dropdown-menu" aria-labelledby="dropdown01"> <a class="dropdown-item" href="#">Action</a> <a class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else here</a> </div>
-				</li>-->
 			</ul>
 		</div>
 	</nav>
 	<div class="container">
 		<div class="jumbotron">
-			<form class="form-inline">
-			  <!--<label class="sr-only" for="inlineFormInput">Name</label>
-			  <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Jane Doe">
-
-			  <label class="sr-only" for="inlineFormInputGroup">Username</label>
-			  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-				<div class="input-group-addon">@</div>
-				<input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Username">
-			  </div>-->
-			  <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-				 <label class="mr-sm-2" for="inlineFormCustomSelect">Rating:</label>
-				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedMinimumRating" ng-options="rating for rating in searchParams.minimumRatings" ng-change="performSearch()">
-				  	<option value="" selected="selected">All</option>
-				  </select>
-			  </div>
-			  <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-				  <label class="mr-sm-2" for="inlineFormCustomSelect">Quality:</label>
-				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedQuality" ng-options="quality for quality in searchParams.quality" ng-change="performSearch()">
-				  <option value="" selected="selected">All</option>
-				  </select>
-			  </div>
-              <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-				  <label class="mr-sm-2" for="inlineFormCustomSelect">Genre:</label>
-				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedGenre" ng-options="genre.value for genre in searchParams.genre track by genre.key" ng-change="performSearch()">
-				  </select>
-			  </div>
-			  <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-				  <label class="mr-sm-2" for="inlineFormCustomSelect">Sort By:</label>
-				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedSortBy" ng-options="sortBy.value for sortBy in searchParams.sortBy track by sortBy.key" ng-change="performSearch()">
-				  </select>
-			  </div>
-			  <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-				 <label class="mr-sm-2" for="inlineFormCustomSelect">Page Limit:</label>
-				  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedPageLimit" ng-options="pageLimit for pageLimit in searchParams.pageLimit" ng-change="performSearch()">
-				  </select>
-			  </div>
-			  <!--<button type="button" class="btn btn-primary" ng-click="performSearch()" autofocus>Search</button>-->
-			</form>
-		</div>
-		<div class="jumbotron">
-			<div class="container text-center" ng-show="data === undefined"><span class="fa fa-refresh fa-spin" style="font-size:10rem"></span></div>
+		    <div class="container">
+                 <div class="row" ng-hide="data.error">
+                     <div class="col-12">
+                         <form class="form-inline">
+                          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                             <label class="mr-sm-2" for="inlineFormCustomSelect">Rating:</label>
+                              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedMinimumRating" ng-options="rating for rating in searchParams.minimumRatings" ng-change="performSearch()">
+                                <option value="" selected="selected">All</option>
+                              </select>
+                          </div>
+                          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                              <label class="mr-sm-2" for="inlineFormCustomSelect">Quality:</label>
+                              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedQuality" ng-options="quality for quality in searchParams.quality" ng-change="performSearch()">
+                              <option value="" selected="selected">All</option>
+                              </select>
+                          </div>
+                          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                              <label class="mr-sm-2" for="inlineFormCustomSelect">Genre:</label>
+                              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedGenre" ng-options="genre.value for genre in searchParams.genre track by genre.key" ng-change="performSearch()">
+                              </select>
+                          </div>
+                          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                              <label class="mr-sm-2" for="inlineFormCustomSelect">Sort By:</label>
+                              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedSortBy" ng-options="sortBy.value for sortBy in searchParams.sortBy track by sortBy.key" ng-change="performSearch()">
+                              </select>
+                          </div>
+                          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                             <label class="mr-sm-2" for="inlineFormCustomSelect">Page Limit:</label>
+                              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedPageLimit" ng-options="pageLimit for pageLimit in searchParams.pageLimit" ng-change="performSearch()">
+                              </select>
+                          </div>
+                          <!--<button type="button" class="btn btn-primary" ng-click="performSearch()" autofocus>Search</button>-->
+                        </form>                
+                     </div>
+                 </div>
+                 <div class="row text-center pt-5" ng-show="data === undefined">
+                     <div class="col-12">
+                          <span class="fa fa-refresh fa-spin" style="font-size:10rem"></span>
+                     </div>
+                 </div>
+		         
+		    </div>
 			<div class="container" ng-show="data.moviesCount > 0">
 				<div class="row">
 					<div class="col-12 text-right">
@@ -186,28 +182,36 @@
     <div class="modal-content">
          <div class="modal-header" ng-show="selectedMovie">
             <h5 class="modal-title" id="exampleModalLongTitle">{{selectedMovie.title_long}} </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
               <div class="container hidden-xs-down">
-                  <div class="row" ng-show="selectedMovie">
+                 <div class="row" ng-show="selectedMovie.error === false">
+                     <div class="col-12 text-right pr-0">
+                         <button type="button" class="btn btn-primary"><span class="fa fa-step-backward"></span></button>
+                        <button type="button" class="btn btn-primary" ng-click="previousMovie(selectedMovie.id)"><span class="fa fa-chevron-left"></span></button>
+                        <button type="button" class="btn btn-primary" ng-click="nextMovie(selectedMovie.id)"><span class="fa fa-chevron-right"></span></button>
+                        <button type="button" class="btn btn-primary"><span class="fa fa-step-forward"></span></button>
+                     </div>
+                 </div>
+                  <div class="row" ng-show="selectedMovie.error === false">
                       <div class="col-3">
                           <a href="http://www.imdb.com/title/{{selectedMovie.imdb_code}}" target="_blank">
-        				    <img class="rounded float-left hidden-sm-down" src="{{selectedMovie.medium_cover_image}}"/>
+        				    <img class="rounded float-left hidden-sm-down" src="{{selectedMovie.medium_cover_image}}" width="200" height="300"/>
                           </a>     
                       </div>
                       <div class="col-5"><h3>Summary</h3>{{selectedMovie.description_full}}</div>
                       <div class="col-4">
                           <h3 ng-show="selectedMovie.cast">Cast</h3>
                           <ul class="list-group">
-                              <li class="list-group-item" ng-repeat="cast in selectedMovie.cast">
+                              <li class="list-group-item p-2" ng-repeat="cast in selectedMovie.cast">
                                 <a href="http://www.imdb.com/name/nm{{cast.imdb_code}}" target="_blank">
-                                    <img src="{{cast.url_small_image}}" class="img-fluid rounded" ng-hide="{{cast.url_small_image === undefined}}"/>
-                                    <img src="#" width="60" height="60" ng-show="{{cast.url_small_image === undefined}}"/>
+                                    <img src="{{cast.url_small_image}}" width="40" height="40" class="img-fluid rounded" ng-hide="{{cast.url_small_image === undefined}}"/>
+                                    <img src="#" width="40" height="40" ng-show="{{cast.url_small_image === undefined}}"/>
                                 </a>
-                                <span class="pl-2">{{cast.name}} as {{cast.character_name}}</span>
+                                <span class="small pl-2">{{cast.name}} as {{cast.character_name}}</span>
                               </li>
                           </ul>
                       </div>
@@ -219,17 +223,25 @@
                   </div>
               </div>
               <div class="container hidden-sm-up">
-                  <div class="row" ng-show="selectedMovie">
+                  <div class="row" ng-show="selectedMovie.error === false">
+                     <div class="col-12 text-right pr-0 pb-2">
+                         <button type="button" class="btn btn-primary"><span class="fa fa-step-backward"></span></button>
+                        <button type="button" class="btn btn-primary" ng-click="previousMovie(selectedMovie.id)"><span class="fa fa-chevron-left"></span></button>
+                        <button type="button" class="btn btn-primary" ng-click="nextMovie(selectedMovie.id)"><span class="fa fa-chevron-right"></span></button>
+                        <button type="button" class="btn btn-primary"><span class="fa fa-step-forward"></span></button>
+                     </div>
+                 </div>
+                  <div class="row" ng-show="selectedMovie.error === false">
                       <div class="col-12">
                           <a href="http://www.imdb.com/title/{{selectedMovie.imdb_code}}" target="_blank">
         				    <img class="rounded float-left" src="{{selectedMovie.medium_cover_image}}"/>
                           </a>     
                       </div>
                   </div>
-                  <div class="row" ng-show="selectedMovie">
+                  <div class="row" ng-show="selectedMovie.error === false">
                       <div class="col-12"><h3>Summary</h3>{{selectedMovie.description_full}}</div>
                   </div>
-                  <div class="row" ng-show="selectedMovie">
+                  <div class="row" ng-show="selectedMovie.error === false">
                       <div class="col-12">
                            <h3 ng-show="selectedMovie.cast">Cast</h3>
                           <ul class="list-group">
@@ -248,9 +260,14 @@
                             <span class="fa fa-refresh fa-spin" style="font-size:10rem"/>                      
                        </div>
                   </div>
+                  <div class="row" ng-show="selectedMovie.error">
+                       <div class="col-12 text-center">
+						    <h5>{{data.message}}</h5>
+                       </div>
+                  </div>
               </div>
           </div>
-          <div class="modal-footer" ng-show="selectedMovie">
+          <div class="modal-footer" ng-show="selectedMovie.error === false">
             <button type="button" class="btn btn-primary"><span class="fa fa-step-backward"></span></button>
             <button type="button" class="btn btn-primary" ng-click="previousMovie(selectedMovie.id)"><span class="fa fa-chevron-left"></span></button>
             <button type="button" class="btn btn-primary" ng-click="nextMovie(selectedMovie.id)"><span class="fa fa-chevron-right"></span></button>
