@@ -1,2 +1,2 @@
 # yifymoviessearch
-Display movies with torrent links
+YIFY movies torrent download. Please visit  https://achinthyakumar.github.io/yifymoviessearch/
