@@ -20,13 +20,16 @@
 				<li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
 			</ul>
 		</div>
+        <!--<span style="margin-right:6.5rem">
+	        <input type="text" placeholder="Search..." ng-model="searchParams.searchTerm"/>
+        </span>-->
 	</nav>
-	<div class="container">
-		<div class="jumbotron">
-		    <div class="container">
-                 <div class="row" ng-hide="data.error">
-                     <div class="col-12">
-                         <form class="form-inline">
+	<div class="container" ng-show="data.moviesCount > 0">
+	    <div class="jumbotron">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-12">
+                        <form class="form-inline">
                           <div class="form-check mb-2 mr-sm-2 mb-sm-0">
                              <label class="mr-sm-2" for="inlineFormCustomSelect">Rating:</label>
                               <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedMinimumRating" ng-options="rating for rating in searchParams.minimumRatings" ng-change="performSearch()">
@@ -56,14 +59,19 @@
                           </div>
                           <!--<button type="button" class="btn btn-primary" ng-click="performSearch()" autofocus>Search</button>-->
                         </form>                
-                     </div>
-                 </div>
-                 <div class="row text-center pt-5" ng-show="data === undefined">
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="container">
+		<div class="jumbotron">
+		    <div class="container">
+                 <div class="row text-center" ng-show="data === undefined">
                      <div class="col-12">
                           <span class="fa fa-refresh fa-spin" style="font-size:10rem"></span>
                      </div>
                  </div>
-		         
 		    </div>
 			<div class="container" ng-show="data.moviesCount > 0">
 				<div class="row">
@@ -187,6 +195,7 @@
             </button>
           </div>
           <div class="modal-body">
+             <!-- Desktop View -->
               <div class="container hidden-xs-down">
                  <div class="row" ng-show="selectedMovie.error === false">
                      <div class="col-12 text-right pr-0">
@@ -202,7 +211,22 @@
         				    <img class="rounded float-left hidden-sm-down" src="{{selectedMovie.medium_cover_image}}" width="200" height="300"/>
                           </a>     
                       </div>
-                      <div class="col-5"><h3>Summary</h3>{{selectedMovie.description_full}}</div>
+                      <div class="col-5">
+                          <h3>Summary</h3>{{selectedMovie.description_full}}
+                          <hr/>
+                          <div class="row">
+                              <div class="col-3"><h6>Rating</h6>{{selectedMovie.rating}}</div>
+                              <div class="col-3"><h6>Runtime</h6>{{selectedMovie.runtime}}</div>
+                              <div class="col-6"><h6>Parental Guide</h6>{{selectedMovie.mpa_rating}}</div>
+                          </div>
+                          <hr/>
+                          <div class="row">
+                              <div class="col-3"><h6>Downloads</h6>{{selectedMovie.download_count}}</div>
+                              <div class="col-3"><h6>Liked</h6>{{selectedMovie.like_count}}</div>
+                              <div class="col-6"><h6>Genres</h6>{{selectedMovie.genres.sort().join(', ')}}</div>
+                          </div>
+                          <hr/>
+                      </div>
                       <div class="col-4">
                           <h3 ng-show="selectedMovie.cast">Cast</h3>
                           <ul class="list-group">
@@ -216,12 +240,47 @@
                           </ul>
                       </div>
                   </div>
+                  <div class="row" ng-show="selectedMovie.error === false">
+                      <div class="col-12" ng-show="selectedMovie.yt_trailer_code">
+                          <div class="card">
+                              <div class="cardblock">
+                                   <div class="embed-responsive embed-responsive-16by9">
+                                      <iframe class="embed-responsive-item" ng-src="{{getYoutubeURL(selectedMovie.yt_trailer_code)}}" allowfullscreen></iframe>
+                                    </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row" ng-show="selectedMovie.error === false">
+                      <div class="col-4" ng-show="selectedMovie.medium_screenshot_image1">
+                          <div class="card">
+                              <div class="cardblock">
+                                  <img src="{{selectedMovie.medium_screenshot_image1}}">  
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-4" ng-show="selectedMovie.medium_screenshot_image1">
+                          <div class="card">
+                              <div class="cardblock">
+                                  <img src="{{selectedMovie.medium_screenshot_image2}}">  
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-4" ng-show="selectedMovie.medium_screenshot_image1">
+                          <div class="card">
+                              <div class="cardblock">
+                                  <img src="{{selectedMovie.medium_screenshot_image3}}">  
+                              </div>
+                          </div>
+                      </div>
+                  </div>
                   <div class="row" ng-show="selectedMovie === undefined">
                        <div class="col-12 text-center">
                             <span class="fa fa-refresh fa-spin" style="font-size:10rem"/>                      
                        </div>
                   </div>
               </div>
+              <!-- Mobile View -->
               <div class="container hidden-sm-up">
                   <div class="row" ng-show="selectedMovie.error === false">
                      <div class="col-12 text-right pr-0 pb-2">
@@ -239,7 +298,33 @@
                       </div>
                   </div>
                   <div class="row" ng-show="selectedMovie.error === false">
-                      <div class="col-12"><h3>Summary</h3>{{selectedMovie.description_full}}</div>
+                      <div class="col-12">
+                          <h3>Summary</h3>{{selectedMovie.description_full}}
+                          <hr/>
+                          <div class="row">
+                              <div class="col-3"><h6>Rating</h6>{{selectedMovie.rating}}</div>
+                              <div class="col-3"><h6>Runtime</h6>{{selectedMovie.runtime}}</div>
+                              <div class="col-6"><h6>Parental Guide</h6>{{selectedMovie.mpa_rating}}</div>
+                          </div>
+                          <hr/>
+                          <div class="row">
+                              <div class="col-3"><h6>Downloads</h6>{{selectedMovie.download_count}}</div>
+                              <div class="col-3"><h6>Liked</h6>{{selectedMovie.like_count}}</div>
+                              <div class="col-6"><h6>Genres</h6>{{selectedMovie.genres.sort().join(', ')}}</div>
+                          </div>
+                          <hr/>
+                       </div>
+                  </div>
+                  <div class="row" ng-show="selectedMovie.error === false">
+                      <div class="col-12" ng-show="selectedMovie.yt_trailer_code">
+                          <div class="card">
+                              <div class="cardblock">
+                                   <div class="embed-responsive embed-responsive-16by9">
+                                      <iframe class="embed-responsive-item" ng-src="{{getYoutubeURL(selectedMovie.yt_trailer_code)}}" allowfullscreen></iframe>
+                                    </div>
+                              </div>
+                          </div>
+                      </div>
                   </div>
                   <div class="row" ng-show="selectedMovie.error === false">
                       <div class="col-12">

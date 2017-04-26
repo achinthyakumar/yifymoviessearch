@@ -4,7 +4,7 @@
 	$(document).ready(function () {
 		
 	});
-	var ytsApp = angular.module('ytsApp', []);
+	var ytsApp = angular.module('ytsApp', ['ngSanitize']);
 	ytsApp.config(function($routeProvider) {
     $routeProvider
 		.when("/", {

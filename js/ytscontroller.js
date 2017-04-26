@@ -1,6 +1,8 @@
 // Define the `phonecatApp` module
-angular.module('ytsApp', []).controller('YTSController', function YTSController($scope, $http) {
+angular.module('ytsApp', []).controller('YTSController', function YTSController($scope, $http, $sce) {
+    
 	$scope.searchParams = {
+        searchTerm:"",
 		pageLimit: [10, 20, 30, 40, 50],
         selectedPageLimit: 20,
 		minimumRatings: [9, 8, 7, 6, 5, 4, 3, 2, 1],
@@ -40,8 +42,8 @@ angular.module('ytsApp', []).controller('YTSController', function YTSController(
 					quality: $scope.searchParams.selectedQuality,
                     genre: $scope.searchParams.selectedGenre.key,
                     sort_by: $scope.searchParams.selectedSortBy.key,
-                    order_by: $scope.searchParams.orderBy
-					//query_term:"sdadasd"
+                    order_by: $scope.searchParams.orderBy,
+					query_term: $scope.searchParams.searchTerm
 				},
                 timeout: 3000
 			}).then(function successCallback(response) {
@@ -115,6 +117,14 @@ angular.module('ytsApp', []).controller('YTSController', function YTSController(
 				};
 			});
         }
-    }
+    };
+    
+    $scope.getYoutubeURL = function (yt_trailer_code) {
+        return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + yt_trailer_code + '?rel=0&enablejsapi=1');
+    };
+    
+    $("#moviedetail-modal").on("hidden.bs.modal", function () {
+       $('#moviedetail-modal iframe.embed-responsive-item').attr('src', '')
+    });
 
 });
