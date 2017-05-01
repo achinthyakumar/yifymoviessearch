@@ -15,18 +15,17 @@ angular.module('ytsApp', []).controller('YTSController', function YTSController(
         selectedGenre: {key:"all", value:"All"},
         sortBy: [{key:"latest", value:"Latest"}, {key:"title", value:"Title"},{key:"year", value:"Year"},{key:"rating", value:"Rating"}, {key:"peers", value: "Peers"},{key: "seeds", value:"Seeds"}, {key: "download_count", value:"Download Count"},{key:"like_count", value:"Like Count"}],
         selectedSortBy: {key:"latest", value:"Latest"},
-        showMoviesInTable: true,
-        orderBy: "desc"
+        selectedViewBy: "tile",
+        orderBy: "asc"
 	};
 	$scope.showResults = false;
 	$scope.toggleSort = function (resultSortBy) {
 		$scope.resultSortBy = resultSortBy;
 		$scope.resultOrderBy = !$scope.resultOrderBy;
 	};
-
 	$scope.performSearch = function () {
         $scope.data = undefined;
-		/*sessionStorage.clear();
+        /*sessionStorage.clear();
 		if (sessionStorage.data) {
 			$scope.data = JSON.parse(sessionStorage.data);
 		} else {*/
@@ -52,7 +51,7 @@ angular.module('ytsApp', []).controller('YTSController', function YTSController(
 						moviesCount: response.data.data.movie_count,
 						movies: response.data.data.movies
 					};
-                    $scope.resultSortBy = "rating";
+                    $scope.resultSortBy = $scope.searchParams.selectedSortBy.key;
                     $scope.resultOrderBy = $scope.searchParams.orderBy === "desc";
 					sessionStorage.data = JSON.stringify($scope.data);
 				} else {
@@ -60,7 +59,7 @@ angular.module('ytsApp', []).controller('YTSController', function YTSController(
 						moviesCount: 0,
 						message: "No movies found"
 					};
-					sessionStorage.clear();
+					//sessionStorage.clear();
 				}
 			}, function errorCallback(response) {
 				console.log("Error call back" + response.status);

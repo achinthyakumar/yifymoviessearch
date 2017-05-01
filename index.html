@@ -26,44 +26,112 @@
 	</nav>
 	<div class="container" ng-show="data.moviesCount > 0">
 	    <div class="jumbotron">
-	        <div class="container">
-	            <div class="row">
-	                <div class="col-12">
-                        <form class="form-inline">
-                          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-                             <label class="mr-sm-2" for="inlineFormCustomSelect">Rating:</label>
-                              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedMinimumRating" ng-options="rating for rating in searchParams.minimumRatings" ng-change="performSearch()">
-                                <option value="" selected="selected">All</option>
-                              </select>
-                          </div>
-                          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-                              <label class="mr-sm-2" for="inlineFormCustomSelect">Quality:</label>
-                              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedQuality" ng-options="quality for quality in searchParams.quality" ng-change="performSearch()">
-                              <option value="" selected="selected">All</option>
-                              </select>
-                          </div>
-                          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-                              <label class="mr-sm-2" for="inlineFormCustomSelect">Genre:</label>
-                              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedGenre" ng-options="genre.value for genre in searchParams.genre track by genre.key" ng-change="performSearch()">
-                              </select>
-                          </div>
-                          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-                              <label class="mr-sm-2" for="inlineFormCustomSelect">Sort By:</label>
-                              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedSortBy" ng-options="sortBy.value for sortBy in searchParams.sortBy track by sortBy.key" ng-change="performSearch()">
-                              </select>
-                          </div>
-                          <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-                             <label class="mr-sm-2" for="inlineFormCustomSelect">Page Limit:</label>
-                              <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect" ng-model="searchParams.selectedPageLimit" ng-options="pageLimit for pageLimit in searchParams.pageLimit" ng-change="performSearch()">
-                              </select>
-                          </div>
-                          <!--<button type="button" class="btn btn-primary" ng-click="performSearch()" autofocus>Search</button>-->
-                        </form>                
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+            <div class="container">
+                <div class="container hidden-sm-up">
+                    <div class="row mb-2">
+                        <div class="col-4">
+                            <label>Rating:</label>
+                        </div>
+                        <div class="col">
+                            <select class="custom-select" ng-model="searchParams.selectedMinimumRating" ng-options="rating for rating in searchParams.minimumRatings" ng-change="performSearch()">
+                                    <option value="" selected="selected">All</option>
+                                  </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4">
+                            <label>Quality:</label>
+                        </div>
+                           <div class="col">
+                            <select class="custom-select" ng-model="searchParams.selectedQuality" ng-options="quality for quality in searchParams.quality" ng-change="performSearch()">
+                                      <option value="" selected="selected">All</option>
+                                  </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4">
+                            <label>Genre:</label>
+                        </div>
+                        <div class="col">    
+                            <select class="custom-select" ng-model="searchParams.selectedGenre" ng-options="genre.value for genre in searchParams.genre track by genre.key" ng-change="performSearch()">
+                                  </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4">
+                            <label>Sort By:</label>
+                        </div>
+                        <div class="col">
+                            <select class="custom-select" ng-model="searchParams.selectedSortBy" ng-options="sortBy.value for sortBy in searchParams.sortBy track by sortBy.key" ng-change="performSearch()">
+                                        </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4">
+                            <label>Page Limit:</label>
+                        </div>
+                            <div class="col">
+                            <select class="custom-select" id="inlineFormCustomSelect" ng-model="searchParams.selectedPageLimit" ng-options="pageLimit for pageLimit in searchParams.pageLimit" ng-change="performSearch()">
+                            </select>
+                            </div>
+                    </div>
+                     <div class="row mb-2">
+                        <div class="col-4">
+                            <label>View By:</label>
+                        </div>
+                        <div class="col">
+                             <input type="radio" ng-model="searchParams.selectedViewBy" value="tile">
+                             <span class="fa fa-address-card" style="padding-right:16px;font-size:1.5rem"></span>
+                             <input type="radio" ng-model="searchParams.selectedViewBy" value="table">
+                             <span class="fa fa-table" style="padding-right:2px;font-size:1.5rem"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="container hidden-xs-down">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Rating:</label>
+                            <select class="custom-select" ng-model="searchParams.selectedMinimumRating" ng-options="rating for rating in searchParams.minimumRatings" ng-change="performSearch()">
+                                    <option value="" selected="selected">All</option>
+                                  </select>
+                        </div>
+                       
+                        <div class="col">
+                            <label>Genre:</label>
+                            <select class="custom-select" ng-model="searchParams.selectedGenre" ng-options="genre.value for genre in searchParams.genre track by genre.key" ng-change="performSearch()">
+                                  </select>
+                        </div>
+                        <div class="col">
+                            <label>Sort By:</label>
+                            <select class="custom-select" ng-model="searchParams.selectedSortBy" ng-options="sortBy.value for sortBy in searchParams.sortBy track by sortBy.key" ng-change="performSearch()">
+                                        </select>
+                        </div>
+                        <div class="col">
+                            <label>Page Limit:</label>
+                            <select class="custom-select" id="inlineFormCustomSelect" ng-model="searchParams.selectedPageLimit" ng-options="pageLimit for pageLimit in searchParams.pageLimit" ng-change="performSearch()">
+                                      </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label>Quality:</label>
+                            <select class="custom-select" ng-model="searchParams.selectedQuality" ng-options="quality for quality in searchParams.quality" ng-change="performSearch()">
+                                      <option value="" selected="selected">All</option>
+                                  </select>
+                        </div>
+                        <div class="col">
+                            <label>View By:</label>
+                             <input type="radio" ng-model="searchParams.selectedViewBy" value="tile">
+                             <span class="fa fa-address-card" style="padding-right:16px;font-size:1.5rem"></span>
+                             <input type="radio" ng-model="searchParams.selectedViewBy" value="table">
+                             <span class="fa fa-table" style="padding-right:2px;font-size:1.5rem"></span>
+                        </div>
+                        <div class="offset-6"></div>
+                    </div>
+                </div>
+            </div> 
+	   </div>
+    </div>
 	<div class="container">
 		<div class="jumbotron">
 		    <div class="container">
@@ -74,13 +142,7 @@
                  </div>
 		    </div>
 			<div class="container" ng-show="data.moviesCount > 0">
-				<div class="row">
-					<div class="col-12 text-right">
-						<span class="fa fa-table" style="padding-right:2px;font-size:1.5rem" ng-show="!searchParams.showMoviesInTable" ng-click="searchParams.showMoviesInTable=!searchParams.showMoviesInTable"></span>
-						<span class="fa fa-address-card" style="padding-right:16px;font-size:1.5rem" ng-show="searchParams.showMoviesInTable" ng-click="searchParams.showMoviesInTable=!searchParams.showMoviesInTable"></span>
-					</div>
-				</div>
-                <div class="row table-responsive" ng-show="searchParams.showMoviesInTable">
+                <div class="row table-responsive" ng-show="searchParams.selectedViewBy === 'table'">
 				<table class="table table-sm table-hover">
 					<thead class="thead-inverse">
 						<tr>
@@ -137,7 +199,7 @@
 					</tbody>
 				</table>		
 			</div>
-            <div class="row" ng-show="!searchParams.showMoviesInTable">
+                <div class="row" ng-show="searchParams.selectedViewBy === 'tile'">
 				<div class="col-12">
 					<div class="card-columns" ng-show="data !== undefined">
 						<div class="card card-block" ng-repeat="movie in data.movies | orderBy:resultSortBy:resultOrderBy">
